@@ -1,0 +1,48 @@
+<!-- sensor_data/templates/sensor_data/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AirGuard Dashboard</title>
+</head>
+<body>
+    <h1>AirGuard Sensor Data</h1>
+    <table border="1">
+        <tr>
+            <th>Timestamp</th>
+            <th>Water Level</th>
+            <th>Temperature (°C)</th>
+            <th>Humidity (%)</th>
+            <th>Oxygen (%)</th>
+            <th>Pollution</th>
+            <th>Ozone</th>
+            <th>Light</th>
+            <th>UV Light</th>
+            <th>Quality</th>
+            <th>Flow Rate (L/min)</th>
+            <th>Total Milliliters</th>
+            <th>Percentage (%)</th>
+            <th>Liquid Level</th>
+            <th>TDS Value</th>
+        </tr>
+        {% for record in data %}
+        <tr>
+            <td>{{ record.current_date_time }}</td>
+            <td>{{ record.water_level }}</td>
+            <td>{{ record.temperature }}</td>
+            <td>{{ record.humidity }}</td>
+            <td>{{ record.oxygen }}</td>
+            <td>{{ record.pollution }}</td>
+            <td>{{ record.ozone }}</td>
+            <td>{{ record.light }}</td>
+            <td>{{ record.uv_light }}</td>
+            <td>{{ record.quality }}</td>
+            <td>{{ record.flow_rate }}</td>
+            <td>{{ record.total_milli_liters }}</td>
+            <td>{{ record.percentage }}</td>
+            <td>{{ record.liquid_level }}</td>
+            <td>{{ record.tds_value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
