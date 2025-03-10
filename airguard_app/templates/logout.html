@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log out</title>
+</head>
+<body>
+{% csrf_token %}
+<h1>You have been logged out!</h1>
+<p>Thank you for using our app. You have been successfully logged out.</p>
+<a href="{% url 'users:login' %}">Click here to log in again</a>
+</body>
+</html>

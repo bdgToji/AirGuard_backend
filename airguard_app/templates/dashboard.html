@@ -1,0 +1,64 @@
+<!-- sensor_data/templates/sensor_data/dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard - AirGuard</title>
+</head>
+<body>
+    <h1>Welcome, {{ request.user.username }}</h1>
+
+    <!-- Dropdown or list for selecting AirSystem -->
+    <form method="get" action="{% url 'dashboard' %}">
+        <label>Select your Air System:</label>
+        <select name="system_id" onchange="this.form.submit()">
+            {% for system in air_systems %}
+                <option value="{{ system.id }}" {% if system == selected_system %}selected{% endif %}>
+                    {{ system.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    {% if selected_system %}
+        <h2>Latest Data for "{{ selected_system.name }}"</h2>
+
+        {% if latest_sensor_data %}
+            <ul>
+                <li><strong>Timestamp:</strong> {{ latest_sensor_data.current_date_time }}</li>
+                <li><strong>Temperature:</strong> {{ latest_sensor_data.temperature }} °C</li>
+                <li><strong>Humidity:</strong> {{ latest_sensor_data.humidity }} %</li>
+                <li><strong>Oxygen Level:</strong> {{ latest_sensor_data.oxygen }} %</li>
+                <li><strong>Pollution:</strong> {{ latest_sensor_data.pollution }}</li>
+                <li><strong>Ozone:</strong> {{ latest_sensor_data.ozone }}</li>
+                <li><strong>Light Intensity:</strong> {{ latest_sensor_data.light }}</li>
+                <li><strong>UV Light:</strong> {{ latest_sensor_data.uv_light }}</li>
+                <li><strong>Quality Index:</strong> {{ latest_sensor_data.quality }}</li>
+                <!-- Add more parameters as needed -->
+            </ul>
+        {% else %}
+            <p>No sensor data available yet for this system.</p>
+        {% endif %}
+
+    {% else %}
+        <p>You don't have any registered Air Systems yet.</p>
+    {% endif %}
+    <ul>
+    {% for button in buttons %}
+      <li>
+          {{ button.get_button_type_display }}:
+          {% if button.is_on %}
+              <strong style="color:green">ON</strong>
+          {% else %}
+              <strong style="color:red">OFF</strong>
+          {% endif %}
+          <a href="{% url 'toggle_button' button.id %}">Toggle</a>
+      </li>
+    {% endfor %}
+    </ul>
+
+<form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="nav-link bg-danger ms-2">Logout</button>
+</form>
+</body>
+</html>

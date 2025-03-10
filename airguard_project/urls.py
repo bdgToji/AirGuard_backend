@@ -16,10 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from airguard_app.views import collect_sensor_data, index
+
+from airguard_app import views
+from airguard_app.views import collect_sensor_data, index, collect_sensor_data_json, register, user_dashboard
+from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', index, name='index'),
     path('collect/', collect_sensor_data, name='collect_sensor_data'),
+    path('collect-json/', collect_sensor_data_json, name='collect_sensor_data'),
+    path('register/', register, name='register'),
+    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout'),
+    path('dashboard/', user_dashboard, name='dashboard'),
+    path('toggle-button/<int:button_id>/', views.toggle_button, name='toggle_button'),
 ]

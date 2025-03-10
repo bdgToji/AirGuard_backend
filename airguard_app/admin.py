@@ -1,7 +1,24 @@
 from django.contrib import admin
-from .models import SensorData
+from .models import SensorData, AirSystem, Button
 
 # Register your models here.
+
+
+class ButtonInline(admin.TabularInline):
+    model = Button
+    extra = 0
+    readonly_fields = ('button_type',)
+    can_delete = False
+
+
+class AirSystemAdmin(admin.ModelAdmin):
+    list_display = ('user',)
+    inlines = [ButtonInline]
+
+
+class ButtonAdmin(admin.ModelAdmin):
+    list_display = ('air_system', 'button_type', 'is_on')
+    list_filter = ('button_type', 'is_on')
 
 
 class SensorDataAdmin(admin.ModelAdmin):
@@ -32,3 +49,5 @@ class SensorDataAdmin(admin.ModelAdmin):
 
 
 admin.site.register(SensorData, SensorDataAdmin)
+admin.site.register(AirSystem, AirSystemAdmin)
+admin.site.register(Button, ButtonAdmin)
